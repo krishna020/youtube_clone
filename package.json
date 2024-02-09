@@ -5,8 +5,9 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
+    "format": "prettier --write .",
     "start": "nodemon src/app.js",
-    "dev":"node src/app.js"
+    "dev": "node src/app.js"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +18,7 @@
     "mongoose": "^8.1.1"
   },
   "devDependencies": {
-    "nodemon": "^3.0.3"
+    "nodemon": "^3.0.3",
+    "prettier": "^3.2.5"
   }
 }
