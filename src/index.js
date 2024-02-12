@@ -1,5 +1,6 @@
 import dotenv from "dotenv"
 import connectDB from "./db/index.js";
+import app from "./app.js";
 dotenv.config({
     path: './.env'
 })
@@ -7,14 +8,24 @@ dotenv.config({
 
 
 connectDB()
-// .then(() => {
-//     app.listen(process.env.PORT || 8000, () => {
-//         console.log(`⚙️ Server is running at port : ${process.env.PORT}`);
-//     })
-// })
-// .catch((err) => {
-//     console.log("MONGO db connection failed !!! ", err);
-// })
+    .then(() => {
+        app.listen(process.env.PORT || 8000, () => {
+            console.log(`Server is running at port : ${process.env.PORT}`);
+        })
+
+       // Handle server errors
+        app.on('error', (err) => {
+            if (err.code === 'EADDRINUSE') {
+                console.error(`Port ${process.env.PORT} is already in use.......`);
+            } else {
+                console.error('Server error:', err);
+            }
+            process.exit(1); // Exit the process with a non-zero status code
+        });
+    })
+    .catch((err) => {
+        console.log("MONGO db connection failed !!! ", err);
+    })
 
 
 
