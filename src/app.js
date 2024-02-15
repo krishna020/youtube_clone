@@ -13,4 +13,10 @@ app.use(urlencoded({extended:true, limit:"16kb"})) // want to parse url string
 app.use(express.static("public"))  // use single or double
 app.use(cookieParser())
 
+// import  router
+import userRouter from "./routes/user.router.js";
+
+// router declaration
+app.use("/api/v1/users",userRouter)
+
 export default app;
