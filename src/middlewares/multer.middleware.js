@@ -1,5 +1,5 @@
 import multer from 'multer';
-import uuid from 'uuid'
+import { v4 as uuidv4 } from 'uuid'
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -10,7 +10,7 @@ const storage = multer.diskStorage({
       const { originalname } = file
   
       //cb(null, file.fieldname + '-' + uniqueSuffix)
-      cb(null, `${originalname}${uuid.v4()}`)
+      cb(null, `${originalname}${v4()}`)
     }
   })
   const fileFilter = (req, file, cb) => {
