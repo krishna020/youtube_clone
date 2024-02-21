@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import bcrypt from 'bcrypt'
 
 const userSchema = new mongoose.Schema({
     userName:
@@ -27,8 +28,7 @@ const userSchema = new mongoose.Schema({
     },
     avatar:
     {
-        type: String,
-        required: true
+        type: String
     },
     coverImage:
     {
@@ -41,7 +41,6 @@ const userSchema = new mongoose.Schema({
     },
     confirmPassword: {
         type: String,
-        required: true
     },
     refressToken:
     {

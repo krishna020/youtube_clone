@@ -18,31 +18,37 @@ const registerUser=asyncHandler(async (req,res)=>
   // return res.
 
   
-const {userName,email,fullName,password,confirm_password}=req.body
+const {userName,email,fullName,password,confirmPassword}=req.body
 
 
-if(!userName|| !email || !fullName || !password || !confirm_password)
+if(!userName|| !email || !fullName || !password || !confirmPassword)
 {
     throw new ApiError(400,"All fields are requireds..!") 
 }
 
-const userExists=User.findOne({$or:[{userName:userName}, {email:email}]})
+console.log('confirm password...'+confirmPassword)
+
+const userExists= await User.findOne({$or:[{userName:userName}, {email:email}]})
 if(userExists)
 {
     throw new ApiError(409,"user already exists")
 }
 
+console.log('req.file  37....'+req.files?.avatar[0]?.path)
+
 const avatarLocalPath=req.files?.avatar[0]?.path
 const coverImageLocalPath=req.files?.coverImage[0]?.path
-if(avatarLocalPath)
+if(!avatarLocalPath)
 {
     throw new ApiError(400, "Avatar fields is required..!")
 }
 
-if(password!==confirm_password)
+if(password!==confirmPassword)
 {
     throw new ApiError(400,"password and confirm password does not matched")
 }
+
+console.log('all is good till 49')
 
 const avatar = await cloudnaryUploader(avatarLocalPath)
 const coverImage = await cloudnaryUploader(coverImageLocalPath)
@@ -52,8 +58,10 @@ if(!avatar)
     throw new ApiError(400, "Avatar fields is required..!")  
 }
 
+
+console.log("avatar.url......."+avatar.url)
 const createdUser=await User.create({
-    userName:userName.lowercase(),
+    userName:userName,
     fullName,
     avatar:avatar.url,
     coverImage:coverImage?.url || "",
@@ -61,7 +69,9 @@ const createdUser=await User.create({
     password    
 })
 
-const user= User.findById({_id:createdUser._id}).select("-password -refressToken")
+console.log('createdUser.....'+createdUser)
+
+const user= await User.findById({_id:createdUser._id}).select("-password -refressToken")
 if(!user)
 {
     throw new ApiError(500, "something went wrong during registering user")
