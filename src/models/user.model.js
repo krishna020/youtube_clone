@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
 
 const userSchema = new mongoose.Schema({
     userName:
@@ -42,7 +43,7 @@ const userSchema = new mongoose.Schema({
     confirmPassword: {
         type: String,
     },
-    refressToken:
+    refreshToken:
     {
         type: String,
     },
